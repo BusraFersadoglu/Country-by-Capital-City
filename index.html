@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countries</title>
+    <link rel="icon" type="image/x-icon" href="world.svg">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="reset.css">
+</head>
+<body>
+    <div class="search-form">
+        <input type="text" class="search" placeholder="Country by Capital City">
+        <ul class="suggestions"></ul>
+    </div>
+
+    <script>
+        const dataPoint = "https://raw.githubusercontent.com/samayo/country-json/master/src/country-by-capital-city.json"
+
+        const countries = [];
+        fetch(dataPoint)
+            .then(b => b.json())
+            .then(d => countries.push(...d)); 
+
+        function findMach(wordToMatch, countries){
+             return countries.filter(place => {
+
+                 const regex = new RegExp(wordToMatch, "gi")
+
+                 return place.country.match(regex)
+            })
+        }
+
+        function displayMatches(){
+            const matchArray = findMach(this.value, countries);
+            const html = matchArray.map(place => {
+            return `
+            <li>
+                <span class="name">${place.country}</span>
+                <span class="city">${place.city}</span>
+            </li>
+            `;
+        }).join('');
+        suggestions.innerHTML = html;
+        }
+
+        const searchInput = document.querySelector(".search");
+        const suggestions = document.querySelector('.suggestions');
+
+        searchInput.addEventListener('change', displayMatches);
+        searchInput.addEventListener('keyup', displayMatches);
+
+    </script>
+</body>
+</html>
