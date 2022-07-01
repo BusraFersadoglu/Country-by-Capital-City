@@ -1,6 +1,9 @@
-const dataPoint = "https://raw.githubusercontent.com/samayo/country-json/master/src/country-by-capital-city.json"
+const dataPoint = "https://raw.githubusercontent.com/samayo/country-json/master/src/country-by-capital-city.json" ;
+const searchInput = document.querySelector(".search");
+const suggestions = document.querySelector('.suggestions');
 
 const countries = [];
+
 fetch(dataPoint)
     .then(b => b.json())
     .then(d => countries.push(...d)); 
@@ -24,9 +27,6 @@ function displayMatches(){
         }).join('');
     suggestions.innerHTML = html;
 }
-
-const searchInput = document.querySelector(".search");
-const suggestions = document.querySelector('.suggestions');
 
 searchInput.addEventListener('change', displayMatches);
 searchInput.addEventListener('keyup', displayMatches);
